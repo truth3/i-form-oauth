@@ -1,0 +1,24 @@
+{
+  "name": "zerion/iFormOAuth",
+  "type": "library",
+  "description": "iFormBulder API interface for generating access tokens",
+  "keywords": ["iFormBuilder","Authentication","OAuth"],
+  "homepage": "https://github.com/pixelploy/iFormOAuthPackage",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Seth Salinas",
+      "email": "ssalinas@zerionsoftware.com",
+      "homepage": "https://www.iformbuilder.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "firebase/php-jwt": "dev-master"
+
+  },
+  "autoload": {
+    "classmap": ["auth/", "vendor/"]
+  }
+}

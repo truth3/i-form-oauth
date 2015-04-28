@@ -1,0 +1,11 @@
+.idea/
+LICENSE.md
+README.md
+RequestTest.php
+test/
+Core/**
+-f
+-m
+.DS_Store
+vendor/
+

@@ -5,7 +5,6 @@
   "keywords": ["iFormBuilder","Authentication","OAuth"],
   "homepage": "https://github.com/pixelploy/iFormOAuthPackage",
   "license": "MIT",
-  "version": "1.0.0",
   "authors": [
     {
       "name": "Seth Salinas",

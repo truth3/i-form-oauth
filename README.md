@@ -1,4 +1,4 @@
-# iFormOAuthPackage
+# iFormOAuth
 
 <p>Package is designed to help jumpstart development with iFormBulder API by providing an easy interface for generating access tokens.</p> 
 

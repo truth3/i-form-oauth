@@ -1,5 +1,5 @@
 {
-  "name": "zerion/iFormOAuth",
+  "name": "zerion/i-form-oauth",
   "type": "library",
   "description": "iFormBulder API interface for generating access tokens",
   "keywords": ["iFormBuilder","Authentication","OAuth"],

@@ -126,12 +126,7 @@ class iFormTokenResolver {
     {
         $token = json_decode($results, true);
 
-        if (isset($token['access_token'])) {
-            return $token['access_token'];
-        } else {
-            return $token['error'];
-        }
-
+        return isset($token['access_token']) ? $token['access_token'] : $token['error'];
     }
 
 }

@@ -44,7 +44,7 @@ class iFormTokenResolver {
         $this->client = $client;
         $this->secret = $secret;
         $this->request = $requester ?: new iFormCurl();
-        $this->endpoint = trim($url));
+        $this->endpoint = trim($url);
     }
 
     /**

@@ -90,7 +90,7 @@ class iFormTokenResolver {
         }
     }
     /**
-     * Request/get token
+     * Format Params
      *
      * @return string
      */

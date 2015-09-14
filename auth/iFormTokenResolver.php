@@ -1,7 +1,5 @@
 <?php namespace iForm\Auth;
-
 use iForm\Auth\iFormCurl;
-
 /**
  * @category Authentication
  * @package  iForm\Authentication
@@ -9,35 +7,30 @@ use iForm\Auth\iFormCurl;
  * @license  http://opensource.org/licenses/MIT
  */
 class iFormTokenResolver {
-
     /**
      * This value has a maximum of 10 minutes
      *
      * @var int
      */
     private static $exp = 600;
-
     /**
      * Credentials - secret.  See instructions for acquiring credentials
      *
      * @var string
      */
     private $secret;
-
     /**
      * Credentials - client key.  See instructions for acquiring credentials
      *
      * @var string
      */
     private $client;
-
     /**
      * oAuth - https://ServerName.iformbuilder.com/exzact/api/oauth/token
      *
      * @var string
      */
     private $endpoint;
-
     /**
      * @param string $url
      * @param string $client
@@ -48,10 +41,10 @@ class iFormTokenResolver {
      */
     function __construct($url, $client, $secret, $requester = null)
     {
-        $this->setEndpoint($url);
         $this->client = $client;
         $this->secret = $secret;
         $this->request = $requester ?: new iFormCurl();
+        $this->endpoint = trim($url));
     }
 
     /**
@@ -69,22 +62,19 @@ class iFormTokenResolver {
             "exp" => $iat + self::$exp,
             "iat" => $iat
         );
-
         return \JWT::encode($payload, $client_secret);
     }
-
     /**
-     * URL must begin with secure https:// and end with api OAuth endpoint
+     * api OAuth endpoint
      *
      * @param string $url
      *
-     * @return int (1 or 0)
+     * @return boolen
      */
     private function isValid($url)
     {
-        return preg_match("/\/exzact\/api\/oauth\/token/D", $url);
+        return strpos($url, "exzact/api/oauth/token") !== false;
     }
-
     /**
      * Set endpoint after check
      *
@@ -93,15 +83,12 @@ class iFormTokenResolver {
      * @throws \Exception
      * @return null
      */
-    public function setEndpoint($url)
+    public function validateEndpoint()
     {
-        if (empty($url) || ! $this->isValid($url)) {
+        if (empty($this->endpoint) || ! $this->isValid($this->endpoint)) {
             throw new \Exception('Invalid url: Valid format https://SERVER_NAME.iformbuilder.com/exzact/api/oauth/token');
         }
-
-        $this->endpoint = $url;
     }
-
     /**
      * Request/get token
      *
@@ -109,13 +96,20 @@ class iFormTokenResolver {
      */
     public function getToken()
     {
-        $params = array("grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
-                        "assertion"  => $this->encode($this->client, $this->secret));
+        try {
+            $this->validateEndpoint();
+            $params = array("grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                            "assertion"  => $this->encode($this->client, $this->secret));
 
-        return $this->check($this->request->post($this->endpoint)
-                                          ->with($params));
+            $result = $this->check($this->request->post($this->endpoint)
+                                                 ->with($params));
+        
+        } catch (Exception $e){
+            $result = $e->getMessage();
+        } 
+        
+        return $result;
     }
-
     /**
      * Check results
      * @param $results
@@ -128,7 +122,5 @@ class iFormTokenResolver {
 
         return isset($token['access_token']) ? $token['access_token'] : $token['error'];
     }
-
 }
-
 

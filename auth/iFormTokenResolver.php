@@ -83,7 +83,7 @@ class iFormTokenResolver {
      * @throws \Exception
      * @return null
      */
-    public function validateEndpoint()
+    private function validateEndpoint()
     {
         if (empty($this->endpoint) || ! $this->isValid($this->endpoint)) {
             throw new \Exception('Invalid url: Valid format https://SERVER_NAME.iformbuilder.com/exzact/api/oauth/token');
@@ -94,13 +94,21 @@ class iFormTokenResolver {
      *
      * @return string
      */
+    private function getParams()
+    {
+        return array("grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
+                     "assertion"  => $this->encode($this->client, $this->secret));
+    }
+    /**
+     * Request/get token
+     *
+     * @return string
+     */
     public function getToken()
     {
         try {
             $this->validateEndpoint();
-            $params = array("grant_type" => "urn:ietf:params:oauth:grant-type:jwt-bearer",
-                            "assertion"  => $this->encode($this->client, $this->secret));
-
+            $params = $this->getParams();
             $result = $this->check($this->request->post($this->endpoint)
                                                  ->with($params));
         

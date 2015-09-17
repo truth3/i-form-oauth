@@ -55,7 +55,7 @@ class iFormTokenResolver {
      */
     private function encode($client_key, $client_secret)
     {
-        $iat = (new \DateTime())->getTimestamp();
+        $iat = time();
         $payload = array(
             "iss" => $client_key,
             "aud" => $this->endpoint,

@@ -1,5 +1,4 @@
 <?php namespace iForm\Auth;
-
 /**
  * Class iFormCurl
  *
@@ -9,21 +8,13 @@
  *              chained parameters;
  */
 class iFormCurl {
-
     /**
      * start curl object
      *
      * @var
      */
     private $ch = null;
-
-    /**
-     * error
-     *
-     * @var null
-     */
-    private $error = null;
-
+  
     /**
      * Curl exec
      *
@@ -31,17 +22,30 @@ class iFormCurl {
      */
     private function execute()
     {
-        $results = curl_exec($this->ch);
-        $this->error = curl_error($this->ch);
-        curl_close($this->ch);
-
-        return $results;
+        try {
+            $response = $this->handle();
+        } catch (\Exception $e) {
+            $response = $e->getMessage();
+        }
+        
+        return $response;
     }
 
-
-    public function getError()
+    /**
+     * Curl exec
+     *
+     * @return mixed
+     */
+    private function handle()
     {
-        return $this->error;
+        $results = curl_exec($this->ch);
+        $errorCode = curl_errno($this->ch);
+        $httpStatus = ($errorCode) ? $errorCode : curl_getinfo($this->ch, CURLINFO_HTTP_CODE);
+        curl_close($this->ch);
+
+        if ($httpStatus < 200 || $httpStatus >= 400) throw new Exception($response, $httpStatus);
+        
+        return $results;
     }
 
     /**
@@ -51,7 +55,6 @@ class iFormCurl {
     {
         $this->ch = is_null($this->ch) ?: curl_init();
     }
-
     /**
      * @param string $url
      * @param array  $params
@@ -61,22 +64,18 @@ class iFormCurl {
     public function post($url, array $params = null)
     {
         $this->startResource();
-
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-type: application/x-www-form-urlencoded'));
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_POST, true);
-
         if (! is_null($params)) {
             $params = http_build_query($params);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $params);
-
             return $this->execute();
         } else {
             return $this;
         }
     }
-
     /**
      * @param array $params passed to method
      *
@@ -85,12 +84,9 @@ class iFormCurl {
      */
     public function with(array $params)
     {
-        if (is_null($this->ch)) {
-            throw new \Exception('Invalid use of method.  Must declare request type before passing parameters');
-        }
+        if (is_null($this->ch)) throw new \Exception('Invalid use of method.  Must declare request type before passing parameters');
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($params));
-
+        
         return $this->execute();
     }
-
 }

@@ -72,10 +72,11 @@ class iFormCurl {
         if (! is_null($params)) {
             $params = http_build_query($params);
             curl_setopt($this->ch, CURLOPT_POSTFIELDS, $params);
+            
             return $this->execute();
-        } else {
-            return $this;
         }
+        
+        return $this;
     }
     /**
      * @param array $params passed to method

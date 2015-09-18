@@ -49,8 +49,7 @@ class iFormCurl {
      */
     private function startResource()
     {
-        if (! is_null($this->ch)) return;
-        $this->ch = curl_init();
+        $this->ch = is_null($this->ch) ?: curl_init();
     }
 
     /**

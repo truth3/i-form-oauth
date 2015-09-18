@@ -32,8 +32,9 @@ class iFormCurl {
     }
 
     /**
-     * Curl exec
+     * Handle response
      *
+     * @throws \Exception
      * @return mixed
      */
     private function handle()

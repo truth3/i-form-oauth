@@ -16,5 +16,19 @@
       "Iform\\": "",
       "Iform\\Tests\\": "tests"
     }
-  }
+  },
+  "type": "library",
+  "description": "iFormBulder API interface for generating access tokens",
+  "keywords": ["iFormBuilder","Authentication","OAuth"],
+  "homepage": "https://github.com/pixelploy/iFormOAuthPackage",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Seth Salinas",
+      "email": "ssalinas@zerionsoftware.com",
+      "homepage": "https://www.iformbuilder.com/",
+      "role": "Developer"
+    }
+  ]
 }

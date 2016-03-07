@@ -1,3 +1,17 @@
+<<<<<<< HEAD
 vendor/*
 .idea/*
 test.php
+=======
+.idea/
+LICENSE.md
+README.md
+RequestTest.php
+test/
+Core/**
+-f
+-m
+.DS_Store
+vendor/
+
+>>>>>>> 874f38a09739b8459a0b7ceaa5d499990b196ab2

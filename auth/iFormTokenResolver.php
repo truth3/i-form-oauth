@@ -4,6 +4,7 @@ use Iform\Auth\RequestHandler;
 use Iform\Auth\Encoder;
 use Iform\Auth\Jwt;
 
+
 /**
  * @category Authentication
  * @package  iForm\Authentication
@@ -12,6 +13,12 @@ use Iform\Auth\Jwt;
  */
 class iFormTokenResolver {
 
+    /**
+     * This value has a maximum of 10 minutes
+     *
+     * @var int
+     */
+    private static $exp = 600;
     /**
      * Credentials - secret.  See instructions for acquiring credentials
      *
@@ -39,7 +46,7 @@ class iFormTokenResolver {
     /**
      * iForm instance
      *
-     * @var iFormCurl|null
+     * @var RequestHandler |null
      */
     private $request = null;
 
@@ -102,8 +109,7 @@ class iFormTokenResolver {
     }
 
     /**
-     * Format Params
-     *
+     * Build query parameter string
      * @return string
      */
     private function getTokenParams()
@@ -133,8 +139,6 @@ class iFormTokenResolver {
     }
 
     /**
-     * Check results
-     *
      * @param $results
      *
      * @return string token || error msg

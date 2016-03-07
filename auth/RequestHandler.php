@@ -131,7 +131,6 @@ class RequestHandler {
         $requestCount = 0;
         do {
             list ($httpStatus, $response) = $this->request($header);
-            var_dump($response);
             $isRequestTimedOut = $httpStatus < 100 || $httpStatus == 503 || $httpStatus == 504; //api is busing | rate limiting
             $requestCount ++;
 

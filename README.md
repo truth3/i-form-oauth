@@ -7,6 +7,8 @@
 
 <pre>
 
+require 'zerion_autoload.php';
+
 use iForm\Auth\iFormTokenResolver;
 
 //instantiate iFormTokenResolver with required parameters and call getToken() method
